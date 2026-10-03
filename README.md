@@ -16,7 +16,12 @@ El proyecto utiliza analítica y ML **como apoyo a la decisión, no como sustitu
 
 ## Pregunta de negocio
 
-> **¿Qué clientes tienen mayor probabilidad de volver a comprar en los próximos 90 días y qué segmentos de clientes concentran mayor valor o riesgo de abandono, de modo que la empresa pueda anticipar la demanda, priorizar la acción comercial y tomar mejores decisiones de reposición para reducir faltantes y excedentes?**
+> **¿Cuándo y cuánto reponer?**
+
+Para apoyar esa decisión, el proyecto responde dos preguntas analíticas:
+
+1. **Predicción:** ¿Qué clientes tienen mayor propensión a recomprar en 90 días?
+2. **Segmentación:** ¿Qué clientes presentan comportamientos de compra similares?
 
 ### Alcance del ML (aclaración importante)
 
