@@ -1,0 +1,14 @@
+# Compilados de .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# Configuracion local con credenciales
+appsettings.Local.json
+
+# Python / Jupyter
+.ipynb_checkpoints/
+__pycache__/
+.venv/
