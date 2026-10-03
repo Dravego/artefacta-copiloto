@@ -89,6 +89,14 @@ La tasa de recompra a 90 días es alta (92% en el conjunto de modelado), por lo 
 
 **Limitación:** el dataset no incluye costos, margen, campañas ni la aceptación de recomendaciones, por lo que el modelo predice recompra observada, pero no demuestra que una recomendación del Copiloto cause una venta.
 
+## Tablero en Power BI
+
+Dashboard interactivo con los indicadores, la evolución de ventas, las categorías, los productos y el comportamiento de clientes, usado en la demostración del proyecto:
+
+**[Abrir tablero de Power BI](https://app.powerbi.com/view?r=eyJrIjoiYzM3ZDAxMWQtNDMxNC00ZWYyLTg3Y2ItYjY0ZWVlZGZlYWZkIiwidCI6IjBmYjMyNzNkLWVjMjQtNDE5ZC1hMTllLWRlNDRjOWQ0OTBjNSJ9)**
+
+No requiere instalar nada; se abre en el navegador.
+
 ## Funcionalidades de la aplicación
 
 - **Dashboard comercial** con indicadores principales.
@@ -173,4 +181,4 @@ El notebook encuentra automáticamente el archivo en `data/DATASET_ARTEFACTA.csv
 
 ## Tecnologías
 
-ASP.NET Core MVC (.NET 10) · Entity Framework Core · Oracle 19c · Python · pandas · scikit-learn · matplotlib · Jupyter / Google Colab
+ASP.NET Core MVC (.NET 10) · Entity Framework Core · Oracle 19c · Python · pandas · scikit-learn · matplotlib · Jupyter / Google Colab · Power BI
