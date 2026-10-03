@@ -1,0 +1,39 @@
+@model Artefacta.Copiloto.ViewModels.UsuarioEditarRolesViewModel
+@{
+    ViewData["Title"] = "Editar roles";
+}
+<div class="panel narrow-panel">
+    <span class="eyebrow">Administración</span>
+    <h1>@Model.Nombre</h1>
+    <p>Usuario: <strong>@Model.Username</strong></p>
+
+    <form asp-action="Roles" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="usuarioId" value="@Model.UsuarioId" />
+
+        <label class="check-row admin-check">
+            <input type="checkbox" name="activo" value="true" @(Model.Activo ? "checked" : "") />
+            <input type="hidden" name="activo" value="false" />
+            <span>Usuario activo</span>
+        </label>
+
+        <h2>Roles</h2>
+        <div class="role-grid">
+        @foreach (var rol in Model.Roles)
+        {
+            <label class="role-option">
+                <input type="checkbox"
+                       name="rolesSeleccionados"
+                       value="@rol.RolId"
+                       @(rol.Seleccionado ? "checked" : "") />
+                <span>@rol.Nombre</span>
+            </label>
+        }
+        </div>
+
+        <div class="form-actions">
+            <button type="submit">Guardar cambios</button>
+            <a class="button secondary" asp-action="Usuarios">Cancelar</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,53 @@
+@model IReadOnlyList<Artefacta.Copiloto.ViewModels.UsuarioListaViewModel>
+@{
+    ViewData["Title"] = "Usuarios";
+}
+<div class="hero">
+    <div>
+        <span class="eyebrow">Administración</span>
+        <h1>Usuarios</h1>
+        <p>Usuarios, roles y asociación con vendedores de ARTEFACTA.</p>
+    </div>
+    <a class="button" asp-action="Nuevo">Nuevo usuario</a>
+</div>
+
+<table>
+<thead>
+<tr>
+    <th>Usuario</th>
+    <th>Nombre</th>
+    <th>Vendedor asociado</th>
+    <th>Roles</th>
+    <th>Estado</th>
+    <th>Acciones</th>
+</tr>
+</thead>
+<tbody>
+@foreach (var u in Model)
+{
+<tr>
+    <td><strong>@u.Username</strong></td>
+    <td>@u.Nombre<br /><span class="small">@u.Email</span></td>
+    <td>@(u.Vendedor ?? "—")</td>
+    <td>
+        @foreach (var rol in u.Roles)
+        {
+            <span class="role-chip">@rol</span>
+        }
+    </td>
+    <td>@(u.Activo ? "Activo" : "Inactivo")</td>
+    <td>
+        <div class="admin-actions">
+            <a asp-action="Editar" asp-route-id="@u.UsuarioId">Editar</a>
+            <form asp-action="ResetPassword" method="post"
+                  onsubmit="return confirm('¿Forzar cambio de contraseña para este usuario?');">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@u.UsuarioId" />
+                <button class="text-button" type="submit">Reset password</button>
+            </form>
+        </div>
+    </td>
+</tr>
+}
+</tbody>
+</table>

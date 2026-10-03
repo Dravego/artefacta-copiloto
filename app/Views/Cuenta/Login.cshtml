@@ -1,0 +1,59 @@
+@model Artefacta.Copiloto.ViewModels.LoginViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Iniciar sesión";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ARTEFACTA Copiloto - Login</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="auth-page">
+<div class="auth-card">
+    <div class="auth-brand">ARTEFACTA COPILOTO</div>
+    <h1>Iniciar sesión</h1>
+    <p>Accede con tu usuario y contraseña.</p>
+
+    @if (TempData["Mensaje"] is string mensaje)
+    {
+        <div class="success">@mensaje</div>
+    }
+
+    <form asp-action="Login" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="ReturnUrl" />
+
+        <div asp-validation-summary="ModelOnly" class="validation"></div>
+
+        <label asp-for="Username"></label>
+        <input asp-for="Username" autocomplete="username" />
+
+        <label asp-for="Password"></label>
+        <input asp-for="Password" autocomplete="current-password" />
+
+        <label class="check-row">
+            <input asp-for="Recordarme" />
+            <span>Recordarme</span>
+        </label>
+
+        <button class="auth-submit" type="submit">Entrar</button>
+        <div id="password_hint_reset" class="login-help">
+            Si el usuario está marcado en Oracle para cambio de contraseña,
+            el sistema te llevará automáticamente a definir una nueva.
+        </div>
+    </form>
+
+    @if ((bool)(ViewBag.PuedeInicializarAdmin ?? false))
+    {
+        <div class="bootstrap-box">
+            <strong>Primera configuración</strong>
+            <p>No existe un ADMIN activo.</p>
+            <a asp-action="InicializarAdministrador">Crear primer administrador</a>
+        </div>
+    }
+</div>
+</body>
+</html>

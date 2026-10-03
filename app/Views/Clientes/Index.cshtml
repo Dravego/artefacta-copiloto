@@ -1,0 +1,22 @@
+@model IReadOnlyList<Cliente>
+@{
+    ViewData["Title"] = "Clientes";
+}
+<h1>Clientes</h1>
+<form method="get" class="search">
+    <input name="q" value="@ViewBag.Q" placeholder="Código, nombre o RFC" />
+    <button type="submit">Buscar</button>
+</form>
+<table>
+    <thead><tr><th>Código</th><th>Nombre</th><th>RFC</th><th>Email</th><th>Activo</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.CodigoCliente</td><td>@x.Nombre</td><td>@x.Rfc</td><td>@x.Email</td>
+            <td>@(x.Activo ? "Sí" : "No")</td>
+            <td><a asp-controller="Copiloto" asp-action="Cliente" asp-route-id="@x.ClienteId">Analizar</a></td>
+        </tr>
+    }
+    </tbody>
+</table>

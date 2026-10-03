@@ -1,0 +1,66 @@
+@model DashboardDto
+@{
+    ViewData["Title"] = "Inicio";
+}
+<div class="hero">
+    <div>
+        <span class="eyebrow">ARTEFACTA</span>
+        <h1>Panel comercial</h1>
+        <p>Indicadores calculados directamente sobre la base Oracle.</p>
+    </div>
+    <a class="button secondary" asp-controller="Copiloto" asp-action="PruebaConexion">Probar Oracle</a>
+</div>
+
+@if (ViewBag.ErrorConexion != null)
+{
+    <div class="alert">
+        <strong>No se pudo consultar Oracle.</strong><br />
+        @ViewBag.ErrorConexion
+        <div class="small">Revisa ConnectionStrings:OracleConnection en appsettings.json.</div>
+    </div>
+}
+
+<div class="cards">
+    <div class="card"><span>Clientes activos</span><strong>@Model.ClientesActivos.ToString("N0")</strong></div>
+    <div class="card"><span>Productos activos</span><strong>@Model.ProductosActivos.ToString("N0")</strong></div>
+    <div class="card"><span>Ventas del mes</span><strong>@Model.VentasMes.ToString("N0")</strong></div>
+    <div class="card"><span>Total del mes</span><strong>@Model.TotalVentasMes.ToString("C2")</strong></div>
+    <div class="card"><span>Ticket promedio</span><strong>@Model.TicketPromedioMes.ToString("C2")</strong></div>
+    <div class="card"><span>Recomendaciones pendientes</span><strong>@Model.RecomendacionesPendientes.ToString("N0")</strong></div>
+</div>
+
+<div class="grid-2">
+    <section>
+        <h2>Top vendedores del mes</h2>
+        <table>
+            <thead><tr><th>Vendedor</th><th>Ventas</th><th>Total</th></tr></thead>
+            <tbody>
+            @foreach (var x in Model.TopVendedores)
+            {
+                <tr><td>@x.Vendedor</td><td>@x.Ventas.ToString("N0")</td><td>@x.Total.ToString("C2")</td></tr>
+            }
+            </tbody>
+        </table>
+    </section>
+
+    <section>
+        <h2>Top productos del mes</h2>
+        <table>
+            <thead><tr><th>Producto</th><th>Cantidad</th><th>Importe</th></tr></thead>
+            <tbody>
+            @foreach (var x in Model.TopProductos)
+            {
+                <tr><td>@x.Producto</td><td>@x.Cantidad.ToString("N2")</td><td>@x.Importe.ToString("C2")</td></tr>
+            }
+            </tbody>
+        </table>
+    </section>
+</div>
+
+<div class="callout">
+    <div>
+        <strong>Motor de oportunidades</strong>
+        <span>Detecta clientes cuya recompra esperada ya está vencida.</span>
+    </div>
+    <a class="button" asp-controller="Oportunidades" asp-action="Index">Ver oportunidades</a>
+</div>

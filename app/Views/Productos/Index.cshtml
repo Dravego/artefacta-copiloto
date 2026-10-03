@@ -1,0 +1,18 @@
+@model IReadOnlyList<Producto>
+@{
+    ViewData["Title"] = "Productos";
+}
+<h1>Productos</h1>
+<form method="get" class="search">
+    <input name="q" value="@ViewBag.Q" placeholder="Código, SKU o nombre" />
+    <button type="submit">Buscar</button>
+</form>
+<table>
+    <thead><tr><th>Código</th><th>SKU</th><th>Producto</th><th>Categoría</th><th>Precio</th><th>Activo</th></tr></thead>
+    <tbody>
+    @foreach (var x in Model)
+    {
+        <tr><td>@x.CodigoProducto</td><td>@x.Sku</td><td>@x.Nombre</td><td>@x.Categoria?.Nombre</td><td>@x.Precio.ToString("C2")</td><td>@(x.Activo ? "Sí" : "No")</td></tr>
+    }
+    </tbody>
+</table>

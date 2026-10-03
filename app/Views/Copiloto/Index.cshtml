@@ -1,0 +1,26 @@
+@{
+    ViewData["Title"] = "Copiloto";
+    var clientes = ViewBag.Clientes as IReadOnlyList<Cliente> ?? [];
+}
+<div class="hero">
+    <div>
+        <span class="eyebrow">Copiloto comercial</span>
+        <h1>Analiza un cliente</h1>
+        <p>Consulta historial, ticket promedio, frecuencia, últimas ventas y recomendaciones.</p>
+    </div>
+</div>
+
+<form method="get" class="search">
+    <input name="q" value="@ViewBag.Q" placeholder="Código, nombre o RFC del cliente" />
+    <button type="submit">Buscar</button>
+</form>
+
+<div class="list">
+@foreach (var c in clientes)
+{
+    <a class="list-item" asp-action="Cliente" asp-route-id="@c.ClienteId">
+        <strong>@c.Nombre</strong>
+        <span>@c.CodigoCliente @if (!string.IsNullOrWhiteSpace(c.Rfc)) { <text> · @c.Rfc</text> }</span>
+    </a>
+}
+</div>

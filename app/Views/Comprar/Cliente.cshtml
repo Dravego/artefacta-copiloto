@@ -1,0 +1,141 @@
+@model CompraClienteDto
+@{
+    ViewData["Title"] = $"Comprar - {Model.Cliente}";
+}
+<div class="hero">
+    <div>
+        <span class="eyebrow">Venta asistida</span>
+        <h1>@Model.Cliente</h1>
+        <p>@Model.CodigoCliente · @Model.NumeroVentas.ToString("N0") ventas · @Model.TotalHistorico.ToString("C2") histórico</p>
+    </div>
+    <a class="button secondary" asp-controller="Copiloto" asp-action="Cliente" asp-route-id="@Model.ClienteId">
+        Ver ficha del cliente
+    </a>
+</div>
+
+<div class="purchase-summary">
+    <div>
+        <span>Última compra</span>
+        <strong>@(Model.UltimaCompra?.ToString("dd/MM/yyyy") ?? "Sin compras")</strong>
+    </div>
+    <div>
+        <span>Ventas históricas</span>
+        <strong>@Model.NumeroVentas.ToString("N0")</strong>
+    </div>
+    <div>
+        <span>Total histórico</span>
+        <strong>@Model.TotalHistorico.ToString("C2")</strong>
+    </div>
+</div>
+
+<section class="shopping-section">
+    <div class="section-title">
+        <div>
+            <span class="eyebrow">Recompra</span>
+            <h2>Productos que podría volver a necesitar</h2>
+        </div>
+        <span class="small">Basado en frecuencia, recurrencia y última compra.</span>
+    </div>
+
+    @if (Model.Recompra.Count == 0)
+    {
+        <div class="note">No hay suficientes compras repetidas para generar sugerencias de recompra.</div>
+    }
+    else
+    {
+        <div class="product-grid">
+        @foreach (var p in Model.Recompra)
+        {
+            <article class="product-card">
+                <div class="product-type">RECOMPRA · SCORE @p.Score.ToString("N0")</div>
+                <h3>@p.Producto</h3>
+                <div class="product-code">@p.CodigoProducto · @p.Categoria</div>
+                <div class="product-price">@p.Precio.ToString("C2")</div>
+                <p>@p.Motivo</p>
+                @if (!string.IsNullOrWhiteSpace(p.Promocion))
+                {
+                    <div class="promo-badge">Promoción: @p.Promocion</div>
+                }
+                <a class="button secondary"
+                   asp-controller="Productos"
+                   asp-action="Index"
+                   asp-route-q="@p.CodigoProducto">Ver producto</a>
+            </article>
+        }
+        </div>
+    }
+</section>
+
+<section class="shopping-section">
+    <div class="section-title">
+        <div>
+            <span class="eyebrow">Venta cruzada</span>
+            <h2>También podría interesarle</h2>
+        </div>
+        <span class="small">Productos populares dentro de categorías que ya compra.</span>
+    </div>
+
+    @if (Model.VentaCruzada.Count == 0)
+    {
+        <div class="note">No se encontraron opciones de venta cruzada con la regla actual.</div>
+    }
+    else
+    {
+        <div class="product-grid">
+        @foreach (var p in Model.VentaCruzada)
+        {
+            <article class="product-card">
+                <div class="product-type">VENTA CRUZADA · SCORE @p.Score.ToString("N0")</div>
+                <h3>@p.Producto</h3>
+                <div class="product-code">@p.CodigoProducto · @p.Categoria</div>
+                <div class="product-price">@p.Precio.ToString("C2")</div>
+                <p>@p.Motivo</p>
+                @if (!string.IsNullOrWhiteSpace(p.Promocion))
+                {
+                    <div class="promo-badge">Promoción: @p.Promocion</div>
+                }
+                <a class="button secondary"
+                   asp-controller="Productos"
+                   asp-action="Index"
+                   asp-route-q="@p.CodigoProducto">Ver producto</a>
+            </article>
+        }
+        </div>
+    }
+</section>
+
+<section class="shopping-section">
+    <div class="section-title">
+        <div>
+            <span class="eyebrow">Popularidad</span>
+            <h2>Productos populares</h2>
+        </div>
+        <span class="small">Alternativas de alta demanda reciente.</span>
+    </div>
+
+    <div class="product-grid">
+    @foreach (var p in Model.Populares)
+    {
+        <article class="product-card">
+            <div class="product-type">POPULAR</div>
+            <h3>@p.Producto</h3>
+            <div class="product-code">@p.CodigoProducto · @p.Categoria</div>
+            <div class="product-price">@p.Precio.ToString("C2")</div>
+            <p>@p.Motivo</p>
+            @if (!string.IsNullOrWhiteSpace(p.Promocion))
+            {
+                <div class="promo-badge">Promoción: @p.Promocion</div>
+            }
+            <a class="button secondary"
+               asp-controller="Productos"
+               asp-action="Index"
+               asp-route-q="@p.CodigoProducto">Ver producto</a>
+        </article>
+    }
+    </div>
+</section>
+
+<div class="note">
+    Esta entrega recomienda productos, pero todavía no crea una venta ni descuenta inventario.
+    El siguiente paso puede ser carrito + confirmación de venta.
+</div>

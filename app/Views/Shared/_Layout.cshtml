@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ARTEFACTA Copiloto</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+<header>
+    <nav class="nav">
+        <a class="brand" asp-controller="Home" asp-action="Index">ARTEFACTA Copiloto</a>
+        <a asp-controller="Clientes" asp-action="Index">Clientes</a>
+        <a asp-controller="Productos" asp-action="Index">Productos</a>
+        <a asp-controller="Comprar" asp-action="Index">Comprar</a>
+        <a asp-controller="Ventas" asp-action="Index">Ventas</a>
+        <a asp-controller="Oportunidades" asp-action="Index">Oportunidades</a>
+        <a asp-controller="Recomendaciones" asp-action="Index">Recomendaciones</a>
+        <a asp-controller="Copiloto" asp-action="Index">Copiloto</a>
+        <a class="assistant-nav" asp-controller="Asistente" asp-action="Index">Asistente ✦</a>
+
+        @if (User.IsInRole("ADMIN"))
+        {
+            <a asp-controller="Administracion" asp-action="Usuarios">Administración</a>
+        }
+
+        <div class="user-menu">
+            <a class="account-link" asp-controller="Cuenta" asp-action="CambiarMiPassword">@(User.FindFirst("nombre")?.Value ?? User.Identity?.Name)</a>
+            <form asp-controller="Cuenta" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button class="logout-button" type="submit">Salir</button>
+            </form>
+        </div>
+    </nav>
+</header>
+<main class="container">
+    @if (TempData["Mensaje"] is string mensaje)
+    {
+        <div class="success">@mensaje</div>
+    }
+    @RenderBody()
+</main>
+<footer class="footer">ARTEFACTA · Copiloto comercial · ASP.NET Core + Oracle 19c</footer>
+</body>
+</html>

@@ -1,0 +1,34 @@
+@model IReadOnlyList<Recomendacion>
+@{
+    ViewData["Title"] = "Recomendaciones";
+}
+<h1>Recomendaciones pendientes</h1>
+<p>Estas recomendaciones están almacenadas en Oracle y pueden cambiar de estatus.</p>
+
+<table>
+    <thead>
+        <tr><th>Prioridad</th><th>Score</th><th>Cliente</th><th>Producto</th><th>Tipo</th><th>Motivo</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td><span class="badge @x.Prioridad.ToLowerInvariant()">@x.Prioridad</span></td>
+            <td>@x.Score.ToString("N2")</td>
+            <td><a asp-controller="Copiloto" asp-action="Cliente" asp-route-id="@x.ClienteId">@x.Cliente.Nombre</a></td>
+            <td>@x.Producto?.Nombre</td>
+            <td>@x.Tipo</td>
+            <td>@x.Motivo</td>
+            <td class="actions">
+                <form asp-action="Estatus" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@x.RecomendacionId" />
+                    <button class="link-button" name="estatus" value="CONTACTADO">Contactado</button>
+                    <button class="link-button" name="estatus" value="ACEPTADA">Aceptada</button>
+                    <button class="link-button" name="estatus" value="RECHAZADA">Rechazada</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

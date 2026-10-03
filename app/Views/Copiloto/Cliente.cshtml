@@ -1,0 +1,88 @@
+@model CopilotoClienteDto
+@{
+    ViewData["Title"] = $"Copiloto - {Model.Nombre}";
+}
+<div class="hero">
+    <div>
+        <span class="eyebrow">Ficha inteligente del cliente</span>
+        <h1>@Model.Nombre</h1>
+        <p>@Model.CodigoCliente</p>
+    </div>
+    <a class="button secondary" asp-controller="Oportunidades" asp-action="Index">Ver oportunidades</a>
+</div>
+
+<div class="cards">
+    <div class="card"><span>Número de ventas</span><strong>@Model.NumeroVentas.ToString("N0")</strong></div>
+    <div class="card"><span>Total histórico</span><strong>@Model.TotalHistorico.ToString("C2")</strong></div>
+    <div class="card"><span>Ticket promedio</span><strong>@Model.TicketPromedio.ToString("C2")</strong></div>
+    <div class="card"><span>Última compra</span><strong>@(Model.UltimaCompra?.ToString("dd/MM/yyyy") ?? "Sin compras")</strong></div>
+    <div class="card"><span>Días sin comprar</span><strong>@Model.DiasSinComprar.ToString("N0")</strong></div>
+</div>
+
+<div class="grid-2">
+<section>
+    <h2>Productos frecuentes</h2>
+    <table>
+    <thead><tr><th>Producto</th><th>Compras</th><th>Importe</th><th>Última compra</th></tr></thead>
+    <tbody>
+    @foreach (var p in Model.ProductosFrecuentes)
+    {
+    <tr><td>@p.Producto</td><td>@p.NumCompras</td><td>@p.ImporteTotal.ToString("C2")</td><td>@p.UltimaCompra?.ToString("dd/MM/yyyy")</td></tr>
+    }
+    </tbody>
+    </table>
+</section>
+
+<section>
+    <h2>Ventas recientes</h2>
+    <table>
+    <thead><tr><th>Folio</th><th>Fecha</th><th>Total</th><th>Estatus</th></tr></thead>
+    <tbody>
+    @foreach (var v in Model.VentasRecientes)
+    {
+    <tr>
+        <td><a asp-controller="Ventas" asp-action="Detalle" asp-route-id="@v.VentaId">@v.Folio</a></td>
+        <td>@v.FechaVenta.ToString("dd/MM/yyyy")</td>
+        <td>@v.Total.ToString("C2")</td>
+        <td>@v.Estatus</td>
+    </tr>
+    }
+    </tbody>
+    </table>
+</section>
+</div>
+
+<h2>Recomendaciones activas</h2>
+@if (Model.Recomendaciones.Count == 0)
+{
+    <div class="note">No hay recomendaciones activas para este cliente.</div>
+}
+else
+{
+<table>
+<thead><tr><th>Prioridad</th><th>Score</th><th>Tipo</th><th>Producto</th><th>Motivo</th><th>Estatus</th><th>Acciones</th></tr></thead>
+<tbody>
+@foreach (var r in Model.Recomendaciones)
+{
+<tr>
+    <td><span class="badge @r.Prioridad.ToLowerInvariant()">@r.Prioridad</span></td>
+    <td>@r.Score.ToString("N2")</td>
+    <td>@r.Tipo</td>
+    <td>@r.Producto</td>
+    <td>@r.Motivo</td>
+    <td>@r.Estatus</td>
+    <td>
+        <form asp-controller="Recomendaciones" asp-action="Estatus" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@r.RecomendacionId" />
+            <input type="hidden" name="clienteId" value="@Model.ClienteId" />
+            <button class="link-button" name="estatus" value="CONTACTADO">Contactado</button>
+            <button class="link-button" name="estatus" value="ACEPTADA">Aceptada</button>
+            <button class="link-button" name="estatus" value="RECHAZADA">Rechazada</button>
+        </form>
+    </td>
+</tr>
+}
+</tbody>
+</table>
+}

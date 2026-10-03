@@ -1,0 +1,76 @@
+@model CopilotoChatDto
+@{
+    ViewData["Title"] = "Asistente";
+}
+<div class="chat-shell">
+    <div class="chat-header">
+        <div>
+            <span class="eyebrow">ARTEFACTA COPILOTO</span>
+            <h1>Asistente comercial</h1>
+            <p>Respuestas fundamentadas en la base Oracle y en reglas comerciales controladas.</p>
+        </div>
+        <span class="status-dot">Oracle conectado</span>
+    </div>
+
+    <div class="chat-body">
+        @if (!string.IsNullOrWhiteSpace(Model.Pregunta))
+        {
+            <div class="message-row user-row">
+                <div class="message user-message">@Model.Pregunta</div>
+            </div>
+        }
+
+        <div class="message-row">
+            <div class="avatar">A</div>
+            <div class="assistant-stack">
+                <div class="message assistant-message">@Model.Respuesta</div>
+
+                @if (Model.Datos.Count > 0)
+                {
+                    <div class="answer-cards">
+                    @foreach (var d in Model.Datos)
+                    {
+                        if (!string.IsNullOrWhiteSpace(d.Url))
+                        {
+                            <a class="answer-card" href="@d.Url">
+                                <strong>@d.Titulo</strong>
+                                <span>@d.Subtitulo</span>
+                                <p>@d.Detalle</p>
+                            </a>
+                        }
+                        else
+                        {
+                            <div class="answer-card">
+                                <strong>@d.Titulo</strong>
+                                <span>@d.Subtitulo</span>
+                                <p>@d.Detalle</p>
+                            </div>
+                        }
+                    }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Sugerencias.Count > 0)
+    {
+        <div class="prompt-chips">
+        @foreach (var s in Model.Sugerencias)
+        {
+            <a asp-action="Index" asp-route-pregunta="@s">@s</a>
+        }
+        </div>
+    }
+
+    <form asp-action="Preguntar" method="post" class="chat-input">
+        @Html.AntiForgeryToken()
+        <input name="pregunta" autocomplete="off"
+               placeholder="Pregunta al Copiloto, por ejemplo: ¿Qué clientes debo contactar hoy?" />
+        <button type="submit">Preguntar</button>
+    </form>
+
+    <div class="chat-footnote">
+        Entrega 3: interpretación determinística. El Copiloto no genera SQL libre ni utiliza todavía un modelo de IA externo.
+    </div>
+</div>

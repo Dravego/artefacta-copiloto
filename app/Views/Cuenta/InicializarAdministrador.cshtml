@@ -1,0 +1,45 @@
+@model Artefacta.Copiloto.ViewModels.BootstrapAdminViewModel
+@{
+    Layout = null;
+    ViewData["Title"] = "Inicializar administrador";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inicializar administrador - ARTEFACTA</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="auth-page">
+<div class="auth-card wide">
+    <div class="auth-brand">ARTEFACTA COPILOTO</div>
+    <h1>Primer administrador</h1>
+    <p>Esta pantalla sólo está disponible mientras no exista un ADMIN activo.</p>
+
+    <form asp-action="InicializarAdministrador" method="post">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="validation"></div>
+
+        <label asp-for="Username"></label>
+        <input asp-for="Username" />
+
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" />
+
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+
+        <label asp-for="Password"></label>
+        <input asp-for="Password" />
+
+        <label asp-for="ConfirmarPassword"></label>
+        <input asp-for="ConfirmarPassword" />
+
+        <button class="auth-submit" type="submit">Crear administrador</button>
+    </form>
+
+    <p class="auth-back"><a asp-action="Login">Volver al login</a></p>
+</div>
+</body>
+</html>

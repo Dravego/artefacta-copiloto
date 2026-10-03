@@ -1,0 +1,57 @@
+@model Artefacta.Copiloto.ViewModels.UsuarioEditarViewModel
+@{
+    ViewData["Title"] = "Editar usuario";
+}
+<div class="panel user-form-panel">
+    <span class="eyebrow">Administración</span>
+    <h1>Editar usuario</h1>
+
+    <form asp-action="Editar" method="post" class="admin-form">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="UsuarioId" />
+
+        <div asp-validation-summary="ModelOnly" class="validation"></div>
+
+        <label asp-for="Username"></label>
+        <input asp-for="Username" />
+
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" />
+
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+
+        <label asp-for="VendedorId"></label>
+        <select asp-for="VendedorId">
+            <option value="">Sin vendedor asociado</option>
+            @foreach (var v in Model.Vendedores)
+            {
+                <option value="@v.VendedorId">@v.CodigoVendedor · @v.Nombre</option>
+            }
+        </select>
+
+        <label class="check-row">
+            <input asp-for="Activo" />
+            <span>Usuario activo</span>
+        </label>
+
+        <h2>Roles</h2>
+        <div class="role-grid">
+        @foreach (var rol in Model.Roles)
+        {
+            <label class="role-option">
+                <input type="checkbox"
+                       name="RolesSeleccionados"
+                       value="@rol.RolId"
+                       @(Model.RolesSeleccionados.Contains(rol.RolId) ? "checked" : "") />
+                <span>@rol.Nombre</span>
+            </label>
+        }
+        </div>
+
+        <div class="form-actions">
+            <button type="submit">Guardar cambios</button>
+            <a class="button secondary" asp-action="Usuarios">Cancelar</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,28 @@
+@model IReadOnlyList<Cliente>
+@{
+    ViewData["Title"] = "Comprar productos";
+}
+<div class="hero">
+    <div>
+        <span class="eyebrow">Venta asistida</span>
+        <h1>Comprar productos</h1>
+        <p>Selecciona un cliente para mostrarle productos sugeridos según su historial de compras.</p>
+    </div>
+</div>
+
+<form method="get" class="search">
+    <input name="q" value="@ViewBag.Q"
+           placeholder="Código, nombre o RFC del cliente" />
+    <button type="submit">Buscar cliente</button>
+</form>
+
+<div class="list">
+@foreach (var c in Model)
+{
+    <a class="list-item" asp-action="Cliente" asp-route-id="@c.ClienteId">
+        <strong>@c.Nombre</strong>
+        <span>@c.CodigoCliente @if (!string.IsNullOrWhiteSpace(c.Rfc)) { <text> · @c.Rfc</text> }</span>
+        <small>Ver productos recomendados →</small>
+    </a>
+}
+</div>

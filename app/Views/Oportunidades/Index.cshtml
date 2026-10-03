@@ -1,0 +1,63 @@
+@model IReadOnlyList<OportunidadDto>
+@{
+    ViewData["Title"] = "Oportunidades";
+    var limite = (int)(ViewBag.Limite ?? 50);
+}
+<div class="hero">
+    <div>
+        <span class="eyebrow">Motor determinístico</span>
+        <h1>Oportunidades de recompra</h1>
+        <p>Se calculan con la frecuencia histórica registrada en CLIENTE_PRODUCTO.</p>
+    </div>
+</div>
+
+<div class="callout">
+    <div>
+        <strong>@Model.Count oportunidad(es) detectada(s)</strong>
+        <span>El score combina atraso, recurrencia y valor histórico.</span>
+    </div>
+    <form asp-action="Generar" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="limite" value="@limite" />
+        <button type="submit">Generar recomendaciones</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Prioridad</th>
+            <th>Score</th>
+            <th>Cliente</th>
+            <th>Producto</th>
+            <th>Última compra</th>
+            <th>Promedio</th>
+            <th>Atraso</th>
+            <th>Compras</th>
+            <th>Importe</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td><span class="badge @x.Prioridad.ToLowerInvariant()">@x.Prioridad</span></td>
+            <td><strong>@x.Score.ToString("N2")</strong></td>
+            <td>@x.Cliente<br /><span class="small">@x.CodigoCliente</span></td>
+            <td>@x.Producto</td>
+            <td>@x.UltimaCompra.ToString("dd/MM/yyyy")</td>
+            <td>@x.PromedioDiasCompra.ToString("N0") días</td>
+            <td>@x.DiasAtraso días</td>
+            <td>@x.NumCompras</td>
+            <td>@x.ImporteTotal.ToString("C2")</td>
+            <td><a asp-controller="Copiloto" asp-action="Cliente" asp-route-id="@x.ClienteId">Analizar</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<div class="note">
+    <strong>Regla actual:</strong>
+    una oportunidad aparece cuando el número de días desde la última compra supera el promedio histórico de recompra del cliente para ese producto.
+</div>

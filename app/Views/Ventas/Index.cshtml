@@ -1,0 +1,18 @@
+@model IReadOnlyList<Venta>
+@{
+    ViewData["Title"] = "Ventas";
+}
+<h1>Últimas ventas</h1>
+<table>
+    <thead><tr><th>Folio</th><th>Fecha</th><th>Cliente</th><th>Vendedor</th><th>Estatus</th><th>Total</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var x in Model)
+    {
+        <tr>
+            <td>@x.Folio</td><td>@x.FechaVenta.ToString("dd/MM/yyyy")</td><td>@x.Cliente.Nombre</td>
+            <td>@x.Vendedor?.Nombre</td><td>@x.Estatus</td><td>@x.Total.ToString("C2")</td>
+            <td><a asp-action="Detalle" asp-route-id="@x.VentaId">Detalle</a></td>
+        </tr>
+    }
+    </tbody>
+</table>
