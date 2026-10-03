@@ -40,16 +40,20 @@ Estas salidas son una señal **indirecta** de demanda: indican quién es probabl
 artefacta-copiloto/
 ├── README.md                 ← este archivo
 ├── .gitignore
+├── requirements-ml.txt       ← librerías de Python para el notebook
 ├── app/                      ← aplicación web (ASP.NET Core MVC, .NET 10)
 │   ├── Artefacta.Copiloto.sln
 │   ├── Artefacta.Copiloto.csproj
 │   ├── Program.cs            ← configuración e inicio de la aplicación
 │   ├── appsettings.json      ← cadena de conexión a Oracle (editar)
+│   ├── appsettings.Development.json  ← configuración para desarrollo
+│   ├── Properties/           ← perfiles de arranque (puertos)
 │   ├── Controllers/          ← rutas y lógica de cada pantalla
 │   ├── Services/             ← reglas de negocio (oportunidades, recomendaciones, copiloto)
 │   ├── Data/                 ← contexto de Entity Framework Core (mapeo de tablas)
 │   ├── Models/               ← entidades del esquema Oracle
-│   ├── DTOs/ ViewModels/     ← objetos de transferencia y de vista
+│   ├── DTOs/                 ← objetos de transferencia de datos
+│   ├── ViewModels/           ← modelos de las pantallas
 │   ├── Security/             ← usuario actual y roles
 │   ├── Views/                ← pantallas (Razor)
 │   └── wwwroot/              ← estilos
@@ -58,10 +62,11 @@ artefacta-copiloto/
 │   ├── prueba_consultas.sql             ← validación del dataset
 │   └── prueba_entrega2.sql              ← validación de recomendaciones
 ├── notebooks/
-│   └── ARTEFACTA_Oracle_ETL_EDA_ML.ipynb  ← ETL, EDA y ML (propensión + segmentación)
+│   ├── ARTEFACTA_Oracle_ETL_EDA_ML.ipynb  ← ETL, EDA y ML (propensión + segmentación)
+│   └── README.md             ← descripción del notebook
 ├── data/
-│   └── DATASET_ARTEFACTA.csv   ← dataset exportado de Oracle (usado por el notebook)
-├── requirements-ml.txt       ← librerías de Python para el notebook
+│   ├── DATASET_ARTEFACTA.csv ← dataset exportado de Oracle (usado por el notebook)
+│   └── README.md             ← descripción de columnas y uso del dataset
 └── docs/
     └── entregas/             ← notas técnicas de cada entrega parcial
 ```
